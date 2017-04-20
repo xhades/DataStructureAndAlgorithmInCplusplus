@@ -1,0 +1,5 @@
+#ifndef __CERES_SOLVER_TUTORIAL_HPP__
+#define __CERES_SOLVER_TUTORIAL_HPP__
+
+#endif  /* __CERES_SOLVER_TUTORIAL_HPP__ */
+

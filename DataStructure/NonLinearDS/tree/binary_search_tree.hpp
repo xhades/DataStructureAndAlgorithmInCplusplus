@@ -13,6 +13,7 @@
 
 #include "node.hpp"
 #include "tree_operation.hpp"
+#include "rebuild_list.hpp"
 
 template<typename T>
 class BST {
@@ -306,9 +307,10 @@ BST<T> * rebuild(const std::string &json_file) {
     if (file.is_open()) {
         std::string json_object("");
 
-        char c[256];        
-        while (file.read(c, 1)) {
-            json_object.append(c);
+        char buffer[1024];     
+        while (!file.eof()) {
+            file.getline(buffer, 1024);
+            json_object.append(buffer);
         }   
         file.close();
 
@@ -319,14 +321,21 @@ BST<T> * rebuild(const std::string &json_file) {
             Json::Value Preorder = root["Preorder"];
             Json::Value Inorder = root["Inorder"];
 
-            std::vector<T> Preorder_vec;
-            std::vector<T> Inorder_vec;
+            LinkedList<T> Preorder_list(0x7fffffff);
+            LinkedList<T> Inorder_list(0x7fffffff);
             for (unsigned int i = 0; i < Preorder.size(); i++) {
-                Preorder_vec.push_back(std::stoi(Preorder[i].asString()));
+                Preorder_list.append(std::stoi(Preorder[i].asString()));
             }
             for (unsigned int i = 0; i < Inorder.size(); i++) {
-                Inorder_vec.push_back(std::stoi(Inorder[i].asString()));
+                Inorder_list.append(std::stoi(Inorder[i].asString()));
             }
+
+            LinkedList<T> Preorder_list_left(0x7fffffff);
+            LinkedList<T> Preorder_list_right(0x7fffffff);
+            LinkedList<T> Inorder_list_left(0x7fffffff);
+            LinkedList<T> Inorder_list_right(0x7fffffff);
+
+            
         } else {
             std::cout << "[-] can not parse json file!" << std::endl;
         }

@@ -42,8 +42,6 @@ int main(int argc, char ** argv) {
         bst.build(array, sizeof(array) / sizeof(int));
         std::cout << ">> tree's height is " << bst.height() << std::endl;
         bst.serialize();
-
-        
     } else {
         std::cout << ">> can not open file" << std::endl;
     }

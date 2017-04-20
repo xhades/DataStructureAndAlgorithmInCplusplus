@@ -5,24 +5,24 @@
 #include <iostream>
 
 template<typename T>
-struct Node {
+struct ListNode {
     T value;
-    struct Node<T> * next;
+    struct ListNode<T> * next;
 
-    Node() : next(nullptr) {}
-    Node(const T &v, struct Node<T> * ptr=nullptr) : value(v), next(ptr) {}
-    ~Node() {}
+    ListNode() : next(nullptr) {}
+    ListNode(const T &v, struct ListNode<T> * ptr=nullptr) : value(v), next(ptr) {}
+    ~ListNode() {}
 };
 
 template<typename T>
-struct DoubleNode {
+struct DoubleListNode {
     T value;
-    struct DoubleNode<T> * prev;
-    struct DoubleNode<T> * next;
+    struct DoubleListNode<T> * prev;
+    struct DoubleListNode<T> * next;
 
-    DoubleNode() : prev(nullptr) ,next(nullptr) {}
-    DoubleNode(const T &v=0, struct DoubleNode<T> * prev_ptr=nullptr, struct DoubleNode<T> * next_ptr=nullptr) : value(v), prev(prev_ptr) ,next(next_ptr) {}
-    ~DoubleNode() {}
+    DoubleListNode() : prev(nullptr) ,next(nullptr) {}
+    DoubleListNode(const T &v=0, struct DoubleListNode<T> * prev_ptr=nullptr, struct DoubleListNode<T> * next_ptr=nullptr) : value(v), prev(prev_ptr) ,next(next_ptr) {}
+    ~DoubleListNode() {}
 };
 
 /* 单链表 */
@@ -31,7 +31,7 @@ class LinkedList {
 public:
     LinkedList(const T &value) {
         members = 0;
-        head = new struct Node<T>(value);
+        head = new struct ListNode<T>(value);
         cursor = head;
     }
 
@@ -46,7 +46,7 @@ public:
     void append(const T &value) {
         members++;
         
-        struct Node<T> * node = new struct Node<T>(value);
+        struct ListNode<T> * node = new struct ListNode<T>(value);
         cursor->next = node;
         cursor = node;
     }
@@ -56,36 +56,36 @@ public:
 
         members++;
 
-        struct Node<T> * temp = head;
+        struct ListNode<T> * temp = head;
         unsigned int counter = 0;
         while (counter != position) {
             temp = temp->next;
             counter++;
         }
 
-        struct Node<T> * node = new struct Node<T>(value, temp->next);
+        struct ListNode<T> * node = new struct ListNode<T>(value, temp->next);
         temp->next = node;
     }
 
     void del(const unsigned int &position) {
         assert(position < members);
 
-        struct Node<T> * temp = head;
+        struct ListNode<T> * temp = head;
         unsigned int counter = 0;
         while (counter != position) {
             temp = temp->next;
             counter++;
         }
 
-        struct Node<T> * temp_next_next = temp->next->next;
+        struct ListNode<T> * temp_next_next = temp->next->next;
         delete temp->next;
         temp->next = temp_next_next;
 
         members--;
     }
 
-    struct Node<T> * find(const T &value) {
-        struct Node<T> * temp = head->next;
+    struct ListNode<T> * find(const T &value) {
+        struct ListNode<T> * temp = head->next;
 
         while (temp) {
             if (temp->value == value) break;
@@ -95,7 +95,7 @@ public:
         return temp;
     }
 
-    struct Node<T> * get_head() {
+    struct ListNode<T> * get_head() {
         return head;
     }
 
@@ -108,8 +108,8 @@ public:
     }
 
     void clear() {
-        struct Node<T> * temp = head->next;
-        struct Node<T> * temp_backup;
+        struct ListNode<T> * temp = head->next;
+        struct ListNode<T> * temp_backup;
         while (temp) {
             temp_backup = temp;
             temp = temp->next;
@@ -130,7 +130,7 @@ public:
     }
 
     void print() {
-        struct Node<T> * temp = head->next;
+        struct ListNode<T> * temp = head->next;
         while (temp) {
             std::cout << "[+] LinkedList -> " << temp->value << std::endl;
             temp = temp->next;
@@ -141,15 +141,15 @@ public:
         assert(position < members);
         assert(position > 0);
 
-        struct Node<T> * temp = head;
+        struct ListNode<T> * temp = head;
         unsigned int counter = 0;
         while (counter != position - 1) {
             temp = temp->next;
             counter++;
         }
 
-        struct Node<T> * temp1 = temp->next;
-        struct Node<T> * temp2 = temp->next->next;
+        struct ListNode<T> * temp1 = temp->next;
+        struct ListNode<T> * temp2 = temp->next->next;
 
         temp->next = temp2;
         temp1->next = temp2->next;
@@ -158,8 +158,8 @@ public:
 
 private:
     unsigned int members;
-    struct Node<T> * head;
-    struct Node<T> * cursor;
+    struct ListNode<T> * head;
+    struct ListNode<T> * cursor;
 };
 
 /* 双链表 */
@@ -168,8 +168,8 @@ class DoubleLinkedList {
 public:
     DoubleLinkedList() {
         members = 0;
-        head = new struct DoubleNode<T>();
-        tail = new struct DoubleNode<T>();
+        head = new struct DoubleListNode<T>();
+        tail = new struct DoubleListNode<T>();
         head->next = tail;
         tail->prev = head;
         cursor = head;
@@ -186,7 +186,7 @@ public:
     void append(const T &value) {
         members++;
         
-        struct DoubleNode<T> * node = new struct DoubleNode<T>(value, cursor, tail);
+        struct DoubleListNode<T> * node = new struct DoubleListNode<T>(value, cursor, tail);
         cursor->next = node;
         tail->prev = node;
         cursor = node;
@@ -197,15 +197,15 @@ public:
 
         members++;
 
-        struct DoubleNode<T> * temp = head;
+        struct DoubleListNode<T> * temp = head;
         unsigned int counter = 0;
         while (counter != position) {
             temp = temp->next;
             counter++;
         }
 
-        struct DoubleNode<T> * node = new struct DoubleNode<T>(value, temp, temp->next);
-        struct DoubleNode<T> * temp_next = temp->next;
+        struct DoubleListNode<T> * node = new struct DoubleListNode<T>(value, temp, temp->next);
+        struct DoubleListNode<T> * temp_next = temp->next;
         temp->next = node;
         temp_next->prev = node;
     }
@@ -214,15 +214,15 @@ public:
         assert(position <= members);
         assert(position > 0);
 
-        struct DoubleNode<T> * temp = head->next;
+        struct DoubleListNode<T> * temp = head->next;
         unsigned int counter = 1;
         while (counter != position) {
             temp = temp->next;
             counter++;
         }
 
-        struct DoubleNode<T> * temp_prev = temp->prev;
-        struct DoubleNode<T> * temp_next = temp->next;
+        struct DoubleListNode<T> * temp_prev = temp->prev;
+        struct DoubleListNode<T> * temp_next = temp->next;
         temp_prev->next = temp_next;
         temp_next->prev = temp_prev;
         delete temp;
@@ -230,8 +230,8 @@ public:
         members--;
     }
 
-    struct DoubleNode<T> * find(const T &value) {
-        struct DoubleNode<T> * temp = head->next;
+    struct DoubleListNode<T> * find(const T &value) {
+        struct DoubleListNode<T> * temp = head->next;
 
         while (temp->next) {
             if (temp->value == value) break;
@@ -241,11 +241,11 @@ public:
         return temp->next == nullptr ? temp->next : temp;
     }
 
-    struct DoubleNode<T> * get_head() {
+    struct DoubleListNode<T> * get_head() {
         return head;
     }
 
-    struct DoubleNode<T> * get_tail() {
+    struct DoubleListNode<T> * get_tail() {
         return tail;
     }
 
@@ -254,8 +254,8 @@ public:
     }
 
     void clear() {
-        struct DoubleNode<T> * temp = head->next;
-        struct DoubleNode<T> * temp_backup;
+        struct DoubleListNode<T> * temp = head->next;
+        struct DoubleListNode<T> * temp_backup;
         while (temp->next) {
             temp_backup = temp;
             head->next = temp->next;
@@ -278,7 +278,7 @@ public:
     }
 
     void print() {
-        struct DoubleNode<T> * temp = head->next;
+        struct DoubleListNode<T> * temp = head->next;
         while (temp->next) {
             std::cout << "[+] LinkedList -> " << temp->value << std::endl;
             temp = temp->next;
@@ -286,7 +286,7 @@ public:
     }
 
     void reverse_print() {
-        struct DoubleNode<T> * temp = tail->prev;
+        struct DoubleListNode<T> * temp = tail->prev;
         while (temp->prev) {
             std::cout << "[+] LinkedList -> " << temp->value << std::endl;
             temp = temp->prev;
@@ -297,16 +297,16 @@ public:
         assert(position < members);
         assert(position > 0);
 
-        struct DoubleNode<T> * temp = head->next;
+        struct DoubleListNode<T> * temp = head->next;
         unsigned int counter = 1;
         while (counter != position) {
             temp = temp->next;
             counter++;
         }
 
-        struct DoubleNode<T> * temp1 = temp->prev;
-        struct DoubleNode<T> * temp2 = temp->next;
-        struct DoubleNode<T> * temp3 = temp->next->next;
+        struct DoubleListNode<T> * temp1 = temp->prev;
+        struct DoubleListNode<T> * temp2 = temp->next;
+        struct DoubleListNode<T> * temp3 = temp->next->next;
 
         temp1->next = temp2;
         temp2->prev = temp1;
@@ -318,20 +318,20 @@ public:
 
 private:
     unsigned int members;
-    struct DoubleNode<T> * head;
-    struct DoubleNode<T> * tail;
-    struct DoubleNode<T> * cursor;
+    struct DoubleListNode<T> * head;
+    struct DoubleListNode<T> * tail;
+    struct DoubleListNode<T> * cursor;
 };
 
 template<typename T>
-struct LazyNode {
+struct LazyListNode {
     T value;
     bool is_delete;
-    struct LazyNode<T> * next;
+    struct LazyListNode<T> * next;
 
-    LazyNode() : next(nullptr) {}
-    LazyNode(const T &v, struct LazyNode<T> * ptr=nullptr) : value(v), is_delete(false), next(ptr) {}
-    ~LazyNode() {}
+    LazyListNode() : next(nullptr) {}
+    LazyListNode(const T &v, struct LazyListNode<T> * ptr=nullptr) : value(v), is_delete(false), next(ptr) {}
+    ~LazyListNode() {}
 };
 
 /* 带惰性删除功能的单链表 */
@@ -341,7 +341,7 @@ public:
     LazyLinkedList(const T &value) {
         members = 0;
         deleted_members = 0;
-        head = new struct LazyNode<T>(value);
+        head = new struct LazyListNode<T>(value);
         cursor = head;
     }
 
@@ -356,7 +356,7 @@ public:
     void append(const T &value) {
         members++;
         
-        struct LazyNode<T> * node = new struct LazyNode<T>(value);
+        struct LazyListNode<T> * node = new struct LazyListNode<T>(value);
         cursor->next = node;
         cursor = node;
     }
@@ -366,21 +366,21 @@ public:
 
         members++;
 
-        struct LazyNode<T> * temp = head;
+        struct LazyListNode<T> * temp = head;
         unsigned int counter = 0;
         while (counter != position) {
             temp = temp->next;
             counter++;
         }
 
-        struct LazyNode<T> * node = new struct LazyNode<T>(value, temp->next);
+        struct LazyListNode<T> * node = new struct LazyListNode<T>(value, temp->next);
         temp->next = node;
     }
 
     void del(const unsigned int &position) {
         assert(position < members);
 
-        struct LazyNode<T> * temp = head;
+        struct LazyListNode<T> * temp = head;
         unsigned int counter = 0;
         while (counter != position) {
             temp = temp->next;
@@ -396,7 +396,7 @@ public:
             std::cout << ">> execute lazy deletion" << std::endl;
             while (temp->next) {
                 if (temp->next->is_delete) {
-                    struct LazyNode<T> * temp_next_next = temp->next->next;
+                    struct LazyListNode<T> * temp_next_next = temp->next->next;
                     delete temp->next;
                     temp->next = temp_next_next;
                 } else {
@@ -409,8 +409,8 @@ public:
         }
     }
 
-    struct LazyNode<T> * find(const T &value) {
-        struct LazyNode<T> * temp = head->next;
+    struct LazyListNode<T> * find(const T &value) {
+        struct LazyListNode<T> * temp = head->next;
 
         while (temp) {
             if (temp->value == value) break;
@@ -420,7 +420,7 @@ public:
         return temp;
     }
 
-    struct LazyNode<T> * get_head() {
+    struct LazyListNode<T> * get_head() {
         return head;
     }
 
@@ -433,8 +433,8 @@ public:
     }
 
     void clear() {
-        struct LazyNode<T> * temp = head->next;
-        struct LazyNode<T> * temp_backup;
+        struct LazyListNode<T> * temp = head->next;
+        struct LazyListNode<T> * temp_backup;
         while (temp) {
             temp_backup = temp;
             temp = temp->next;
@@ -455,7 +455,7 @@ public:
     }
 
     void print() {
-        struct LazyNode<T> * temp = head->next;
+        struct LazyListNode<T> * temp = head->next;
         while (temp) {
             std::cout << "[+] LinkedList -> " << temp->value << std::endl;
             temp = temp->next;
@@ -465,8 +465,8 @@ public:
 private:
     unsigned int members;
     unsigned int deleted_members;
-    struct LazyNode<T> * head;
-    struct LazyNode<T> * cursor;
+    struct LazyListNode<T> * head;
+    struct LazyListNode<T> * cursor;
 };
 
 #endif  /* __LIST_HPP__ */
