@@ -6,22 +6,25 @@
 #include "binary_search_tree.hpp"
 
 int main(int argc, char ** argv) {
-    // std::ofstream file;
-    // file.open("random number.txt");
-    // if (file.is_open()) {
-    //     std::random_device rd;
-    //     std::uniform_int_distribution<int> dist(0, 100);
-    //     std::string line;
-    //     for (unsigned int i = 0; i < 20; i++) {
-    //         line = std::to_string(dist(rd));
-    //         line.append("\n");
-    //         file << line;
-    //     }
-    //     file.close();
-    // } else {
-    //     std::cout << ">> can not open file" << std::endl;
-    // }
+    /*
+    std::ofstream file;
+    file.open("random number.txt");
+    if (file.is_open()) {
+        std::random_device rd;
+        std::uniform_int_distribution<int> dist(0, 100);
+        std::string line;
+        for (unsigned int i = 0; i < 20; i++) {
+            line = std::to_string(dist(rd));
+            line.append("\n");
+            file << line;
+        }
+        file.close();
+    } else {
+        std::cout << ">> can not open file" << std::endl;
+    }
+    */
 
+    /*
     std::ifstream file;
     file.open("random number.txt");
     if (file.is_open()) {
@@ -37,9 +40,14 @@ int main(int argc, char ** argv) {
 
         BST<int> bst;
         bst.build(array, sizeof(array) / sizeof(int));
-        bst.graph();
-        bst.graphviz();
+        std::cout << ">> tree's height is " << bst.height() << std::endl;
+        bst.serialize();
+
+        
     } else {
         std::cout << ">> can not open file" << std::endl;
     }
+    */
+
+    rebuild<int>("BSTreeSerialization.json");
 }

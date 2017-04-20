@@ -9,29 +9,31 @@
 #include "kd_tree.hpp"
 
 int main(int argc, char ** argv) {
-    // std::ofstream file;
-    // file.open("spatial data.txt");
-    // if (file.is_open()) {
-    //     std::random_device rd;
-    //     std::uniform_int_distribution<int> dist(0, 10000);
-    //     std::string x;
-    //     std::string y;
-    //     std::string z;
-    //     for (unsigned int i = 0; i < 1000000; i++) {
-    //         x = std::to_string(dist(rd));
-    //         x.append(", ");
-    //         file << x;
-    //         y = std::to_string(dist(rd));
-    //         y.append(", ");
-    //         file << y;
-    //         z = std::to_string(dist(rd));
-    //         z.append("\n");
-    //         file << z;
-    //     }
-    //     file.close();
-    // } else {
-    //     std::cout << ">> can not open file" << std::endl;
-    // }
+    /*
+    std::ofstream file;
+    file.open("spatial data.txt");
+    if (file.is_open()) {
+        std::random_device rd;
+        std::uniform_int_distribution<int> dist(0, 10000);
+        std::string x;
+        std::string y;
+        std::string z;
+        for (unsigned int i = 0; i < 1000000; i++) {
+            x = std::to_string(dist(rd));
+            x.append(", ");
+            file << x;
+            y = std::to_string(dist(rd));
+            y.append(", ");
+            file << y;
+            z = std::to_string(dist(rd));
+            z.append("\n");
+            file << z;
+        }
+        file.close();
+    } else {
+        std::cout << ">> can not open file" << std::endl;
+    }
+    */
 
     std::ifstream file;
     file.open("spatial data.txt");
@@ -65,7 +67,8 @@ int main(int argc, char ** argv) {
         clock_t start = clock();
         kdt.find_knn(point);
         clock_t end = clock();
-        std::cout << "[+] used " << end - start << " ms" << std::endl;
+        int used_time_1 = end - start;
+        std::cout << "[+] used " << used_time_1 << " ms" << std::endl;
         std::cout << "******** Naive-Search for find KNN ********" << std::endl;
         start = clock();
         double dist = 0.0;
@@ -84,7 +87,11 @@ int main(int argc, char ** argv) {
         std::cout << "[+] KNN is (" << knn[0] << ", " << knn[1] << ", " << knn[2] << ")" << std::endl; 
         std::cout << "[+] KNN'diantance is " << best_dist << std::endl;
         end = clock();
-        std::cout << "[+] used " << end - start << " ms" << std::endl;
+        int used_time_2 = end - start;
+        std::cout << "[+] used " << used_time_2 << " ms" << std::endl;
+
+        std::cout << "*******************************************" << std::endl;
+        std::cout << "[+] speedup is " << int(used_time_2 / used_time_1) << std::endl;
 
         for (unsigned int i = 0; i < 1000000; i++) {
             delete [] spatial_data[i];

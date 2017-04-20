@@ -2,65 +2,103 @@
 #define __TREE_OPERATION_HPP__
 
 #include <iostream>
+#include <stack>
 #include <queue>
+
 #include "node.hpp"
 
 template<typename T>
-void do_sth(const T &element, const unsigned int &counter, const unsigned int & level) {
-    for (unsigned int i = 0; i < level; i++) {
-        std::cout << '\t';
+void print(const T &element, unsigned int repeat) {
+    while (repeat--) {
+        std::cout << "[+] Element: " << element << std::endl;
     }
-    std::cout << "L" << level << ": " << element << "(" << counter << ")" << std::endl;
 }
 
 template<typename T>
-void print(const T &element) {
-    std::cout << element << std::endl;
-}
-
-template<typename T>
-void preorder(struct Node<T> * root, const unsigned int & level) {
+void preorder_print(struct Node<T> * root) {
     if (root == nullptr) return;
 
-    do_sth<T>(root->key, root->counter,level);
-    preorder<T>(root->left, level + 1);
-    preorder<T>(root->right, level + 1);
+    print<T>(root->key, root->repeat);
+    preorder_print<T>(root->left);
+    preorder_print<T>(root->right);
+}
+
+template<typename T>
+std::vector<T> mode_efficent_preorder(struct Node<T> * root) {
+    std::vector<T> vec;
+
+    if (root == nullptr) return vec;
+
+    std::stack<struct Node<T> *> s;
+    unsigned int i;
+    while(root || !s.empty()) {  
+        while (root) {  // 关键代码，没右子树则输出根部
+            s.push(root);
+            i = root->repeat;
+            while (i--) {
+                vec.push_back(root->key);
+            }
+            root = root->left;
+        }
+        root = s.top();
+        s.pop();
+        root = root->right;
+    }
+
+    return vec;
+}
+
+template<typename T>
+void inorder_print(struct Node<T> * root) {
+    if (root == nullptr) return;
+
+    inorder_print<T>(root->left);
+    print<T>(root->key, root->repeat);
+    inorder_print<T>(root->right);
+}
+
+template<typename T>
+std::vector<T> mode_efficent_inorder(struct Node<T> * root) {
+    std::vector<T> vec;
+
+    if (root == nullptr) return vec;
+
+    std::stack<struct Node<T> *> s;
+    unsigned int i;
+    while(root || !s.empty()) {  
+        while (root) {  // 关键代码，没右子树则输出根部
+            s.push(root);
+            root = root->left;
+        }
+        root = s.top();
+        s.pop();
+        i = root->repeat;
+        while (i--) {
+            vec.push_back(root->key);
+        }
+        root = root->right;
+    }  
+
+    return vec;
+}
+
+template<typename T>
+void postorder_print(struct Node<T> * root) {
+    if (root == nullptr) return;
+
+    postorder_print<T>(root->left);
+    postorder_print<T>(root->right);
+    print<T>(root->key, root->repeat);
 }
 
 // TODO
 template<typename T>
-void mode_efficent_preorder(struct Node<T> * root) {
-    if (root == nullptr) return;
-}
+std::vector<T> mode_efficent_postorder(struct Node<T> * root) {
+    std::vector<T> vec;
 
-template<typename T>
-void inorder(struct Node<T> * root, const unsigned int & level) {
-    if (root == nullptr) return;
+    if (root == nullptr) return vec;
 
-    inorder<T>(root->left, level + 1);
-    do_sth<T>(root->key, root->counter,level);
-    inorder<T>(root->right, level + 1);
-}
-
-// TODO
-template<typename T>
-void mode_efficent_inorder(struct Node<T> * root) {
-    if (root == nullptr) return;
-}
-
-template<typename T>
-void postorder(struct Node<T> * root, const unsigned int & level) {
-    if (root == nullptr) return;
-
-    postorder<T>(root->left, level + 1);
-    postorder<T>(root->right, level + 1);
-    do_sth<T>(root->key, root->counter,level);
-}
-
-// TODO
-template<typename T>
-void mode_efficent_postorder(struct Node<T> * root) {
-    if (root == nullptr) return;
+    return vec;
 }
 
 template<typename T>
@@ -75,7 +113,7 @@ void levelorder(struct Node<T> * root) {
         temp = q.front();
         q.pop();
         if (temp != nullptr) {
-            print<T>(temp->key);
+            print<T>(temp->key, root->repeat);
             q.push(temp->left);
             q.push(temp->right);
         }
@@ -84,8 +122,12 @@ void levelorder(struct Node<T> * root) {
 
 // TODO
 template<typename T>
-void mode_efficent_levelorder(struct Node<T> * root) {
+std::vector<T> mode_efficent_levelorder(struct Node<T> * root) {
+    std::vector<T> vec;
 
+    if (root == nullptr) return vec;
+
+    return vec;
 }
 
 template<typename T>
