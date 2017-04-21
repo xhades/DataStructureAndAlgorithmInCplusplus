@@ -3,6 +3,7 @@
 
 #include <algorithm>
 #include <vector>
+#include <map>
 
 #include "huffman_tree_forest.hpp"
 
@@ -39,6 +40,8 @@ public:
         }
 
         root = forest.entry();
+
+        generate_encoder();
     }
 
     /* output the BS-Tree into dot file */
@@ -58,22 +61,36 @@ public:
         }
     }
 
+    void huffman_encode() {
+        for(std::map<char, std::string>::iterator it = encoder.begin(); it != encoder.end(); it++) {
+            std::cout << it->first << ": " << it->second << std::endl;
+        }
+    }
+
     void clear() {
         std::cout << "[+] delete HuffmanTree object from the memory page." << std::endl;
         delete_nodes(root);
     }
 
-    void encode(const std::string &c) {
-        struct Node_Huffman * node =  root;
-    }
-
-    void decode() {
-
-    }
-
 private:
     unsigned int nodes;
     struct Node_Huffman * root;
+    std::map<char, std::string> encoder;
+
+    void generate_encoder() {
+        encode(root, "");
+    }
+
+    void encode(struct Node_Huffman * node, std::string prefix) {
+        if (node == nullptr) return;
+
+        if (node->left == nullptr && node->right == nullptr) {
+            encoder.insert(std::make_pair(node->word.c_str()[0], prefix));
+        }
+
+        encode(node->left, prefix.append("0"));
+        encode(node->right, prefix.append("1"));
+    }
 
     void fprint_tree(struct Node_Huffman * node, FILE * fp) {
         if (node == nullptr) return;
