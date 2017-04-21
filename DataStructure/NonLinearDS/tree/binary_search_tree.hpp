@@ -321,8 +321,8 @@ BST<T> * rebuild(const std::string &json_file) {
             Json::Value Preorder = root["Preorder"];
             Json::Value Inorder = root["Inorder"];
 
-            LinkedList<T> Preorder_list(0x7fffffff);
-            LinkedList<T> Inorder_list(0x7fffffff);
+            LinkedList<T> Preorder_list;
+            LinkedList<T> Inorder_list;
             for (unsigned int i = 0; i < Preorder.size(); i++) {
                 Preorder_list.append(std::stoi(Preorder[i].asString()));
             }
@@ -330,10 +330,10 @@ BST<T> * rebuild(const std::string &json_file) {
                 Inorder_list.append(std::stoi(Inorder[i].asString()));
             }
 
-            LinkedList<T> Preorder_list_left(0x7fffffff);
-            LinkedList<T> Preorder_list_right(0x7fffffff);
-            LinkedList<T> Inorder_list_left(0x7fffffff);
-            LinkedList<T> Inorder_list_right(0x7fffffff);
+            LinkedList<T> Preorder_list_left;
+            LinkedList<T> Preorder_list_right;
+            LinkedList<T> Inorder_list_left;
+            LinkedList<T> Inorder_list_right;
 
             
         } else {

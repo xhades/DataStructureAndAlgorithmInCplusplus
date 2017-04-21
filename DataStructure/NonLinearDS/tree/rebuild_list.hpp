@@ -115,3 +115,5 @@ private:
     struct ListNode<T> * head;
     struct ListNode<T> * cursor;
 };
+
+#endif

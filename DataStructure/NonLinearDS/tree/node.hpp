@@ -211,4 +211,37 @@ struct Node_R_B {
     }
 };
 
+/* node data structure for huffman tree */
+struct Node_Huffman {
+    unsigned int weight;
+    std::string word;
+    struct Node_Huffman * left;
+    struct Node_Huffman * right;
+
+    Node_Huffman(
+        const unsigned int &w,
+        const std::string &s,
+        struct Node_Huffman * l = nullptr, 
+        struct Node_Huffman * r = nullptr)
+        : weight(w), word(s), left(l), right(r) {
+        // do sth during initialization
+    }
+    ~Node_Huffman() {
+        // do sth during deletion
+    }
+};
+
+/* node data structure for huffman forest*/
+struct Node_Huffman_Forest {
+    struct Node_Huffman * tree;
+    struct Node_Huffman_Forest * next;
+
+    Node_Huffman_Forest(struct Node_Huffman * _tree, struct Node_Huffman_Forest * _next = nullptr) : tree(_tree), next(_next) {
+        // do sth during initialization
+    }
+    ~Node_Huffman_Forest() {
+        // do sth during deletion
+    }
+};
+
 #endif  /* __NODE_HPP__ */
