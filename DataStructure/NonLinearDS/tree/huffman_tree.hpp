@@ -62,8 +62,14 @@ public:
     }
 
     void huffman_encode() {
-        for(std::map<char, std::string>::iterator it = encoder.begin(); it != encoder.end(); it++) {
-            std::cout << it->first << ": " << it->second << std::endl;
+        FILE * fp;
+        fp = fopen("HuffmanTreeCharacterEncoding.txt", "w+");
+        if (fp != nullptr) {
+            for(std::map<char, std::string>::iterator it = encoder.begin(); it != encoder.end(); it++) {
+                fprintf(fp, "%c: %s\n", it->first, it->second.c_str());
+            }
+        } else {
+            std::cout << "[-] can not open file!" << std::endl;
         }
     }
 
@@ -88,7 +94,8 @@ private:
             encoder.insert(std::make_pair(node->word.c_str()[0], prefix));
         }
 
-        encode(node->left, prefix.append("0"));
+        std::string str = prefix;
+        encode(node->left, str.append("0"));
         encode(node->right, prefix.append("1"));
     }
 
