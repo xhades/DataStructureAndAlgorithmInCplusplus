@@ -29,6 +29,6 @@ int main(int argc, char ** argv) {
         HuffmanTree tree;
         tree.build(words);
         tree.huffman_encode();
-        // tree.graph_visualize();
+        tree.graph_visualize();
     }
 }
