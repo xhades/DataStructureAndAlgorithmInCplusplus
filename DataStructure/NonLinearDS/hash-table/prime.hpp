@@ -7,8 +7,8 @@ namespace prime {
 
 bool is_prime(const unsigned int &k) {
     unsigned int half = ceil(k / 2);
-    for (unsigned int i = 1; i < half; ++i) {
-        if (k / i == 0) return false;
+    for (unsigned int i = 2; i < half; ++i) {
+        if (k % i == 0) return false;
     }
     return true;
 }
